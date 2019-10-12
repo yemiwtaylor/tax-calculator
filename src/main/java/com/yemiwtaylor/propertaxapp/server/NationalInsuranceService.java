@@ -15,15 +15,15 @@ public class NationalInsuranceService implements NationalInsuranceResource {
 
   @Override
   public BigDecimal fetchPensionContribution(BigDecimal yearlyGrossSalary) {
-      BigDecimal monthlySalary = yearlyGrossSalary.divide(new BigDecimal("12"), RoundingMode.DOWN);
-      if (monthlySalary.compareTo(monthlyNatInsLowLimit) > 0) {
-          BigDecimal monthlyTaxableSalaryAtLowRate = monthlyNatInsHighLimit.subtract(monthlyNatInsLowLimit).min(monthlySalary.subtract(monthlyNatInsLowLimit));
-          BigDecimal monthlyTaxableSalaryAtHighRate = new BigDecimal("0").min(monthlySalary.subtract(monthlyNatInsHighLimit));
-          BigDecimal monthlyNatInsContribution = monthlyNatInsLowRate
-              .multiply(monthlyTaxableSalaryAtLowRate)
-              .add(monthlyNatInsHighRate.multiply(monthlyTaxableSalaryAtHighRate));
+    BigDecimal monthlySalary = yearlyGrossSalary.divide(new BigDecimal("12"), RoundingMode.DOWN);
+    if (monthlySalary.compareTo(monthlyNatInsLowLimit) > 0) {
+      BigDecimal monthlyTaxableSalaryAtLowRate = monthlyNatInsHighLimit.subtract(monthlyNatInsLowLimit).min(monthlySalary.subtract(monthlyNatInsLowLimit));
+      BigDecimal monthlyTaxableSalaryAtHighRate = new BigDecimal("0").min(monthlySalary.subtract(monthlyNatInsHighLimit));
+      BigDecimal monthlyNatInsContribution = monthlyNatInsLowRate
+          .multiply(monthlyTaxableSalaryAtLowRate)
+          .add(monthlyNatInsHighRate.multiply(monthlyTaxableSalaryAtHighRate));
       return monthlyNatInsContribution.multiply(new BigDecimal("12"));
     }
-      return BigDecimal.ZERO;
+    return BigDecimal.ZERO;
   }
 }
